@@ -3,17 +3,44 @@
   <head>
     <meta charset="utf-8">
     <title>Shopular</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel='stylesheet' href='css/style.css'>
   </head>
   <body>
     <article>
       <header>
         <h1>Shopular</h1>
       </header>
-      <main >
+      <main ng-controller='ShopController as ShopController'>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Price</td>
+              <td>Quantity</td>
+              <td>Color</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat='item in ShopController.inventory'>
+              <td>{{item.name}}</td>
+              <td>${{ShopController.salePrice(item)}}
+                <img ng-hide='item.discount <= 0'
+                src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
+              </td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.color}}</td>
+            </tr>
+          </tbody>
+        </table>
+
 
       </main>
       <footer></footer>
     </article>
+
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js'></script>
+    <script src='js/shop.module.js'></script>
+    <script src='js/shop.controller.js'></script>
   </body>
 </html>
