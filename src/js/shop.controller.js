@@ -14,6 +14,7 @@
     shop.usa = true;
     shop.tax = 0.0575;   // tax is 5.75%
     shop.gbpCalc = 1.5;
+    shop.newItem = [];
 
     shop.inventory = [
       { 'id': 2957, 'name': 'widget', 'price': 32, 'quantity': 203, 'color': 'red', 'discount': 31 },
@@ -85,6 +86,20 @@
      */
     function switchCurrency() {
       this.usa = !this.usa;
+    };
+
+    shop.addItem = function addItem(item) {
+      // build the object to be added to inventory
+      let newItem = {};
+      newItem.name = item.name;
+      newItem.price = item.price;
+      newItem.quantity = item.quantity;
+      newItem.color = item.color;
+      newItem.discount = item.discount;
+
+      shop.inventory.push(newItem);
+
+      console.log("The updated inventory object: ", shop.inventory);
     };
   }
 }());

@@ -11,9 +11,45 @@
       <header>
         <h1>Shopular</h1>
       </header>
-      <main ng-controller='ShopController as ShopController'>
+      <main ng-controller='ShopController as shopCtl'>
+        <h2>New Item</h2>
+        <form
+          name='additem'
+          ng-submit='additem.$valid && shopCtl.addItem(shopCtl.newItem)'>
+          <input
+            type='text'
+            name='name'
+            placeholder='name'
+            required
+            ng-model='shopCtl.newItem.name'>
+          <input
+            type='text'
+            name='price'
+            placeholder='price'
+            required
+            ng-model='shopCtl.newItem.price'>
+          <input
+            type='text'
+            name='quantity'
+            placeholder='quantity'
+            required
+            ng-model='shopCtl.newItem.quantity'>
+          <input
+            type='text'
+            name='color'
+            placeholder='color'
+            required
+            ng-model='shopCtl.newItem.color'>
+          <input
+            type='text'
+            name='discount'
+            placeholder='discount'
+            ng-model='shopCtl.newItem.discount'>
+          <input type='submit' value='add item'>
+        </form>
+
         <button class='btn btn-default'
-          ng-click='ShopController.switchCurrency()'>
+          ng-click='shopCtl.switchCurrency()'>
           US / UK
         </button>
         <table class="table table-striped">
@@ -22,17 +58,17 @@
               <td>Name</td>
               <td>Price</td>
               <td>Quantity</td>
-              <td>{{ShopController.showColor()}}</td>
+              <td>{{shopCtl.showColor()}}</td>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat='item in ShopController.inventory'>
-              <td>{{ShopController.showName(item)}}</td>
-              <td ng-if='ShopController.usa'>{{ShopController.salePrice(item) | currency: '$ 2'}}
+            <tr ng-repeat='item in shopCtl.inventory'>
+              <td>{{shopCtl.showName(item)}}</td>
+              <td ng-if='shopCtl.usa'>{{shopCtl.salePrice(item) | currency: '$ 2'}}
                 <img ng-hide='item.discount <= 0'
                 src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
               </td>
-              <td ng-if='!ShopController.usa'>{{ShopController.salePrice(item) | currency: '&pound 2'}}
+              <td ng-if='!shopCtl.usa'>{{shopCtl.salePrice(item) | currency: '&pound 2'}}
                 <img ng-hide='item.discount <= 0'
                 src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
               </td>
