@@ -12,7 +12,7 @@
     let shop = this;
 
     shop.usa = true;
-    shop.taxCalc = 1.0575;   // tax is 5.75%
+    shop.tax = 0.0575;   // tax is 5.75%
     shop.gbpCalc = 1.5;
 
     shop.inventory = [
@@ -70,12 +70,11 @@
      */
     function salePrice(item) {
       if (this.usa) {
-        return '$' + ((item.price - item.discount) * this.taxCalc).toFixed(2);
+        return ((item.price - item.discount) * (this.tax + 1));
       } else {
         // return with the current currency symbol
-        return String.fromCharCode(0xA3) +
-          (((item.price - item.discount) * this.taxCalc) *
-          this.gbpCalc).toFixed(2);
+        return (((item.price - item.discount) * (this.tax + 1)) *
+          this.gbpCalc);
       }
     };
 

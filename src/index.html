@@ -28,7 +28,11 @@
           <tbody>
             <tr ng-repeat='item in ShopController.inventory'>
               <td>{{ShopController.showName(item)}}</td>
-              <td>{{ShopController.salePrice(item)}}
+              <td ng-if='ShopController.usa'>{{ShopController.salePrice(item) | currency: '$ 2'}}
+                <img ng-hide='item.discount <= 0'
+                src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
+              </td>
+              <td ng-if='!ShopController.usa'>{{ShopController.salePrice(item) | currency: '&pound 2'}}
                 <img ng-hide='item.discount <= 0'
                 src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
               </td>
