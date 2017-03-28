@@ -11,7 +11,9 @@
   function ShopController() {
     let shop = this;
 
+    shop.usa = true;
     shop.taxCalc = 1.0575;   // tax is 5.75%
+    shop.gbpCalc = 1.5;
 
     shop.inventory = [
       { 'id': 2957, 'name': 'widget', 'price': 32, 'quantity': 203, 'color': 'red', 'discount': 31 },
@@ -28,6 +30,37 @@
       { 'id': 683, 'name': 'pillow', 'price': 27, 'quantity': 10, 'color': 'black', 'discount': 12 }
     ];
 
+    shop.showColor =
+    /**
+     * [Return USA or UK work for color]
+     * @return {String} [country-specific word for color]
+     */
+    function showColor() {
+      if (this.usa) {
+        return 'Color';
+      } else {
+        return 'Colour';
+      }
+    };
+
+    shop.showName =
+    /**
+     * [return USA or UK value for name]
+     * @param  {Object} item [inventory item]
+     * @return {String}      [country-specific string for inventory item]
+     */
+    function showName(item) {
+      if (!this.usa) {
+        if (item.name === 'waste basket') {
+          return 'rubbish bin';
+        } else {
+          return item.name;
+        }
+      } else {
+        return item.name;
+      }
+    };
+
     shop.salePrice =
     /**
      * [calculuate and return sale price for this item]
@@ -36,8 +69,23 @@
      *                        rounded up]
      */
     function salePrice(item) {
-      return ((item.price - item.discount) * this.taxCalc).toFixed(2);
+      if (this.usa) {
+        return '$' + ((item.price - item.discount) * this.taxCalc).toFixed(2);
+      } else {
+        // return with the current currency symbol
+        return String.fromCharCode(0xA3) +
+          (((item.price - item.discount) * this.taxCalc) *
+          this.gbpCalc).toFixed(2);
+      }
+    };
+
+    shop.switchCurrency =
+    /**
+     * [set usa boolean value: USA = true, UK = false]
+     * @return {void}
+     */
+    function switchCurrency() {
+      this.usa = !this.usa;
     };
   }
-
 }());
