@@ -12,9 +12,10 @@
     let shop = this;
 
     shop.usa = true;
-    shop.tax = 0.0575;   // tax is 5.75%
+    shop.tax = 0.0575;          // tax is 5.75%
     shop.gbpCalc = 1.5;
-    shop.newItem = [];
+    shop.sortOnThis = 'price';  // default sort column
+
 
     shop.inventory = [
       { 'id': 2957, 'name': 'widget', 'price': 32, 'quantity': 203, 'color': 'red', 'discount': 31 },
@@ -66,16 +67,13 @@
     /**
      * [calculuate and return sale price for this item]
      * @param  {Object} item [inventory item]
-     * @return {Number}      [sale price two-decimal floating point number,
-     *                        rounded up]
+     * @return {Number}      [sale price]
      */
     function salePrice(item) {
       if (this.usa) {
-        return ((item.price - item.discount) * (this.tax + 1));
+        return (item.price - item.discount);
       } else {
-        // return with the current currency symbol
-        return (((item.price - item.discount) * (this.tax + 1)) *
-          this.gbpCalc);
+        return (item.price - item.discount) * this.gbpCalc;
       }
     };
 
@@ -89,17 +87,67 @@
     };
 
     shop.addItem = function addItem(item) {
-      // build the object to be added to inventory
-      let newItem = {};
-      newItem.name = item.name;
-      newItem.price = item.price;
-      newItem.quantity = item.quantity;
-      newItem.color = item.color;
-      newItem.discount = item.discount;
+      let isDataValid = true;
 
-      shop.inventory.push(newItem);
+      // basic validation
+      if (typeof(item.name) !== 'string') {
+        isDataValid = false;
+      } else if (typeof(Number(item.price)) !== 'number') {
+        isDataValid = false;
+      } else if (!item.quantity) {
+        isDataValid = false;
+      } else if (typeof(Number(item.quantity)) !== 'number') {
+        isDataValid = false;
+      } else if (typeof(item.color) !== 'string') {
+        isDataValid = false;
+      }
 
-      console.log("The updated inventory object: ", shop.inventory);
+      if (isDataValid) {
+        // build the object to be added to inventory
+        // force input strings to matching numerical values
+        let newItem = {};
+        newItem.name = item.name;
+        newItem.price = Number(item.price);
+        newItem.quantity = Number(item.quantity);
+        newItem.color = item.color;
+
+        // if no discount is provided, make discount zero
+        if (item.discount) {
+          newItem.discount = item.discount;
+        } else {
+          newItem.discount = 0;
+        }
+        // push item onto the array
+        shop.inventory.push(newItem);
+      }
     };
+
+    shop.setSortOrder = function setSortOrder(property) {
+      if (shop.sortOnThis === property) {
+        shop.sortOnThis = '-' + property;
+      } else if (shop.sortOnThis === '-' + property) {
+        shop.sortOnThis = property;
+      } else {
+        shop.sortOnThis = property;
+      }
+    };
+
+    // NOTE docblock
+    shop.setQuantity = function upQuantity(item, raiseVal) {
+        if (raiseVal) {
+          item.quantity++;
+        } else {
+          item.quantity--; 
+        }
+      };
+
+      /*
+      var move = function (origin, destination) {
+        var temp = $scope.items[destination];
+        $scope.items[destination] = $scope.items[origin];
+        $scope.items[origin] = temp; */
+
+
+
   }
 }());

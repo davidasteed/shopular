@@ -12,34 +12,55 @@
         <h1>Shopular</h1>
       </header>
       <main ng-controller='ShopController as shopCtl'>
-        <h2>New Item</h2>
+        <h2>Add New Item</h2>
         <form
           name='additem'
-          ng-submit='additem.$valid && shopCtl.addItem(shopCtl.newItem)'>
+          ng-submit='additem.$valid && shopCtl.addItem(shopCtl.newItem)'
+          novalidate>
           <input
             type='text'
             name='name'
             placeholder='name'
             required
             ng-model='shopCtl.newItem.name'>
+          <p
+            class='errorText'
+            ng-show='additem.name.$touched &&
+              !additem.name.$valid'>Name is required</p>
+
           <input
             type='text'
             name='price'
             placeholder='price'
             required
             ng-model='shopCtl.newItem.price'>
+          <p
+            class='errorText'
+            ng-show='additem.price.$touched &&
+              !additem.price.$valid'>Price is required</p>
+
           <input
             type='text'
             name='quantity'
             placeholder='quantity'
             required
             ng-model='shopCtl.newItem.quantity'>
+          <p
+            class='errorText'
+            ng-show='additem.quantity.$touched &&
+              !additem.quantity.$valid'>Quantity is required</p>
+
           <input
             type='text'
             name='color'
             placeholder='color'
             required
             ng-model='shopCtl.newItem.color'>
+          <p
+            class='errorText'
+            ng-show='additem.color.$touched &&
+              !additem.color.$valid'>Color is required</p>
+
           <input
             type='text'
             name='discount'
@@ -55,24 +76,35 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <td>Name</td>
-              <td>Price</td>
-              <td>Quantity</td>
+              <!-- <td ng-click='shopCtl.sortOnThis = "name"'>Name</td> -->
+              <td ng-click='shopCtl.setSortOrder("name")'>Name</td>
+              <td ng-click='shopCtl.setSortOrder("price")'>Price</td>
+              <td ng-click='shopCtl.setSortOrder("quantity")'>Quantity</td>
               <td>{{shopCtl.showColor()}}</td>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat='item in shopCtl.inventory'>
+            <tr ng-repeat='item in shopCtl.inventory | orderBy: shopCtl.sortOnThis'>
               <td>{{shopCtl.showName(item)}}</td>
-              <td ng-if='shopCtl.usa'>{{shopCtl.salePrice(item) | currency: '$ 2'}}
+              <td ng-if='shopCtl.usa'>{{shopCtl.salePrice(item) | currency: '$'}}
                 <img ng-hide='item.discount <= 0'
                 src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
               </td>
-              <td ng-if='!shopCtl.usa'>{{shopCtl.salePrice(item) | currency: '&pound 2'}}
+              <td ng-if='!shopCtl.usa'>{{shopCtl.salePrice(item) | currency: '&pound'}}
                 <img ng-hide='item.discount <= 0'
                 src='https://tiy-learn-content.s3.amazonaws.com/98350f05-sale_2.png'>
               </td>
-              <td>{{item.quantity}}</td>
+              <td>
+                <i
+                  class='glyphicon glyphicon-arrow-up'
+                  ng-click='shopCtl.setQuantity(item, true)'>
+                </i>
+                {{item.quantity}}
+                <i
+                  class='glyphicon glyphicon-arrow-down'
+                  ng-click='shopCtl.setQuantity(item, false)'>
+                </i>
+              </td>
               <td>{{item.color}}</td>
             </tr>
           </tbody>
