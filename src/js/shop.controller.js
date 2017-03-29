@@ -86,68 +86,80 @@
       this.usa = !this.usa;
     };
 
-    shop.addItem = function addItem(item) {
-      let isDataValid = true;
+    shop.addItem =
+      /**
+       * [Angular calls this method to
+       * add new item to the inventory array]
+       * @param {Object} item [new item to add]
+       */
+      function addItem(item) {
+        let isDataValid = true;
 
-      // basic validation
-      if (typeof(item.name) !== 'string') {
-        isDataValid = false;
-      } else if (typeof(Number(item.price)) !== 'number') {
-        isDataValid = false;
-      } else if (!item.quantity) {
-        isDataValid = false;
-      } else if (typeof(Number(item.quantity)) !== 'number') {
-        isDataValid = false;
-      } else if (typeof(item.color) !== 'string') {
-        isDataValid = false;
-      }
-
-      if (isDataValid) {
-        // build the object to be added to inventory
-        // force input strings to matching numerical values
-        let newItem = {};
-        newItem.name = item.name;
-        newItem.price = Number(item.price);
-        newItem.quantity = Number(item.quantity);
-        newItem.color = item.color;
-
-        // if no discount is provided, make discount zero
-        if (item.discount) {
-          newItem.discount = item.discount;
-        } else {
-          newItem.discount = 0;
+        // basic validation
+        if (typeof(item.name) !== 'string') {
+          isDataValid = false;
+        } else if (typeof(Number(item.price)) !== 'number') {
+          isDataValid = false;
+        } else if (!item.quantity) {
+          isDataValid = false;
+        } else if (typeof(Number(item.quantity)) !== 'number') {
+          isDataValid = false;
+        } else if (typeof(item.color) !== 'string') {
+          isDataValid = false;
         }
-        // push item onto the array
-        shop.inventory.push(newItem);
-      }
+
+        if (isDataValid) {
+          // build the object to be added to inventory
+          // force input strings to matching numerical values
+          let newItem = {};
+          newItem.name = item.name;
+          newItem.price = Number(item.price);
+          newItem.quantity = Number(item.quantity);
+          newItem.color = item.color;
+
+          // if no discount is provided, make discount zero
+          if (item.discount) {
+            newItem.discount = item.discount;
+          } else {
+            newItem.discount = 0;
+          }
+          // push item onto the array
+          shop.inventory.push(newItem);
+        }
     };
 
-    shop.setSortOrder = function setSortOrder(property) {
-      if (shop.sortOnThis === property) {
-        shop.sortOnThis = '-' + property;
-      } else if (shop.sortOnThis === '-' + property) {
-        shop.sortOnThis = property;
-      } else {
-        shop.sortOnThis = property;
-      }
-    };
-
-    // NOTE docblock
-    shop.setQuantity = function upQuantity(item, raiseVal) {
-        if (raiseVal) {
-          item.quantity++;
+    shop.setSortOrder =
+      /**
+       * [set sorting order based on the chosen property,
+       * forward or reverse]
+       * @param {String} property [property in View to change sorting to]
+       */
+      function setSortOrder(property) {
+        if (shop.sortOnThis === property) {
+          shop.sortOnThis = '-' + property;
+        } else if (shop.sortOnThis === '-' + property) {
+          shop.sortOnThis = property;
         } else {
-          item.quantity--; 
+          shop.sortOnThis = property;
         }
       };
 
-      /*
-      var move = function (origin, destination) {
-        var temp = $scope.items[destination];
-        $scope.items[destination] = $scope.items[origin];
-        $scope.items[origin] = temp; */
-
-
-
+    shop.setQuantity =
+      /**
+       * [increase, decrease item quantity, or delete if zero]
+       * @param {Object} item      [inventory element (an item)]
+       * @param {Boolean} raiseVal [raise value is true]
+       */
+      function setQuantity(item, raiseVal) {
+        if (raiseVal) {
+          item.quantity++;
+        } else {
+          if (item.quantity > 1) {
+            item.quantity--;
+          } else {
+              shop.inventory.splice(shop.inventory.indexOf(item), 1);
+          }
+        }
+      };
   }
 }());
