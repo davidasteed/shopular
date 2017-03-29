@@ -15,7 +15,7 @@
     shop.tax = 0.0575;          // tax is 5.75%
     shop.gbpCalc = 1.5;
     shop.sortOnThis = 'price';  // default sort column
-
+    shop.newItem = {};
 
     shop.inventory = [
       { 'id': 2957, 'name': 'widget', 'price': 32, 'quantity': 203, 'color': 'red', 'discount': 31 },
@@ -111,21 +111,23 @@
         if (isDataValid) {
           // build the object to be added to inventory
           // force input strings to matching numerical values
-          let newItem = {};
-          newItem.name = item.name;
-          newItem.price = Number(item.price);
-          newItem.quantity = Number(item.quantity);
-          newItem.color = item.color;
+          shop.newItem.id = Date.now();   // arbitray "unique id"
+          shop.newItem.name = item.name;
+          shop.newItem.price = Number(item.price);
+          shop.newItem.quantity = Number(item.quantity);
+          shop.newItem.color = item.color;
 
           // if no discount is provided, make discount zero
           if (item.discount) {
-            newItem.discount = item.discount;
+            shop.newItem.discount = item.discount;
           } else {
-            newItem.discount = 0;
+            shop.newItem.discount = 0;
           }
+
           // push item onto the array
-          shop.inventory.push(newItem);
+          shop.inventory.push(shop.newItem);
         }
+        shop.newItem = {};
     };
 
     shop.setSortOrder =

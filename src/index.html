@@ -15,7 +15,9 @@
         <h2>Add New Item</h2>
         <form
           name='additem'
-          ng-submit='additem.$valid && shopCtl.addItem(shopCtl.newItem)'
+          ng-submit='additem.$valid && shopCtl.addItem(shopCtl.newItem);
+          additem.$setPristine();
+          additem.$setUntouched()'
           novalidate>
           <input
             type='text'
