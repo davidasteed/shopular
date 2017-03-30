@@ -8,9 +8,38 @@
   </head>
   <body>
     <article>
-      <header>
+      <header ng-controller='UserController as userCtl'>
         <h1>Shopular</h1>
+          <aside>Logged in as: {{userCtl.displayUser.username}}
+          </aside>
+          <aside>Logged in at: {{userCtl.displayUser.loginDate}}
+          </aside>
+
+        <h2>New Login</h2>
+        <form
+          name='loginUser'
+          ng-submit='loginUser.$valid && userCtl.loginUser(userCtl.inputUser);
+          loginUser.$setPristine();
+          loginUser.$setUntouched()'
+          novalidate>
+          <input
+            name='usename'
+            type='text'
+            placeholder='login name'
+            required
+            ng-model='userCtl.inputUser.username'>
+          <input
+            name='password'
+            type='text'
+            placeholder='password'
+            required
+            ng-model='userCtl.inputUser.password'>
+          <input type='submit' value='Login'>
+        </form>
       </header>
+
+
+
       <main ng-controller='ShopController as shopCtl'>
         <h2>Add New Item</h2>
         <form
@@ -119,5 +148,7 @@
     <script src='js/shop.module.js'></script>
     <script src='js/shop.controller.js'></script>
     <script src='js/inventory.service.js'></script>
+    <script src='js/user.controller.js'></script>
+    <script src='js/user.service.js'></script>
   </body>
 </html>
