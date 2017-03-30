@@ -8,15 +8,20 @@
   // "dependency injector" for window.location, where localStorage exists
   InventoryService.$inject = ['$location'];
 
-  // angular service Constructor
-  // NOTE docblock
+  /**
+   * [InventoryService constructor]
+   * @param {Object} $location [angularJS "location service"]
+   */
   function InventoryService($location) {
 
     // reference to existing inventory,
     // or create new one
     let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
 
-    // NOTE docblock
+    /**
+     * [add item to the inventory]
+     * @param {Objct} item [item to be added]
+     */
     function addItem(item) {
       // if array is empty or null, return
       if (!item || item.length === 0) {
@@ -61,19 +66,23 @@
       localStorage.setItem('inventory', angular.toJson(inventory));
     }
 
-    // NOTE docblock
+    /**
+     * [return variable that points to
+     * existing or new inventory in localStorage]
+     * @return {Object} [inventory as an Object]
+     */
     function getInventory() {
       return inventory;
     }
 
-    // NOTE docblock
+    /**
+     * [update inventory if an item's quantity changes]
+     * @param {Object} item      [item in the inventory]
+     * @param {Boolean} raiseVal [true if user wants to increase quantity]
+     */
     function setQuantity(item, raiseVal) {
-
-      // get current inventory
-      let currentInventory = JSON.parse(localStorage.getItem('inventory'));
-
       // loop over the array to find matching value
-      currentInventory.forEach(function findMatching(eachItem) {
+      inventory.forEach(function findMatching(eachItem) {
         if (eachItem.id === item.id) {
           // raise or lower quantity, or delete item as appropriate
           if (raiseVal) {
@@ -82,63 +91,13 @@
             if (item.quantity > 1) {
               eachItem.quantity--;
             } else {
-              currentInventory.splice(currentInventory.indexOf(eachItem), 1);
+              inventory.splice(inventory.indexOf(eachItem), 1);
             }
           }
         }
-
       });
 
-
-      console.log("localStorage before change: ");
-      console.log(localStorage.inventory);
-      // write result back into localStorage
-      localStorage.setItem('inventory', angular.toJson(currentInventory));
-
-      console.log("inventory in localStorage after change now looks like: ");
-      console.log(localStorage.inventory);
-
-          // function setQuantity(item, raiseVal) {
-          //   if (raiseVal) {
-          //     item.quantity++;
-          //   } else {
-          //     if (item.quantity > 1) {
-          //       item.quantity--;
-          //     } else {
-          //         shop.inventory.splice(shop.inventory.indexOf(item), 1);
-          //     }
-          //   }
-          // };
-
-
-      // // find item in current localStorage
-      // let currentItem = localStorage.inventory;
-      // console.log('currentItem is', currentItem);
-      //
-      // let jsonParsed = JSON.parse(localStorage.getItem('inventory'));
-      // console.log('jsonParsed = ', jsonParsed);
-      // console.log('jsonParsed[1] = ', jsonParsed[1]);
-      //
-      // jsonParsed[1].name = 'Jerry';
-      // console.log('jerry should be in element 1: ', jsonParsed);
-      // localStorage.setItem('inventory', angular.toJson(jsonParsed));
-      //
-      // console.log('should see Jerry now in ', JSON.parse(localStorage.getItem('inventory')));
-
-      // if (raiseVal) {
-      //   // loop through localStorage and raise
-      //   // the quality value of the matching index position
-      //   for (let i = localStorage.inventory.length - 1; i >= 0; i--) {
-      //     if (localStorage.key[i].name === item.name) {
-      //       console.log('the match was at ', localStorage[i]);
-      //     }
-      //   }
-      // }
     }
-
-
-
-
 
     // allow access to service functions
     return {

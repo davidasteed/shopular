@@ -9,7 +9,9 @@
   ShopController.$inject = ['InventoryService'];
 
   /**
-   * [Constructor function for this Angular controller]
+   * [ShopController constructor]
+   * @param {Object} InventoryService [dependency injection
+   *                                   for InventoryService]
    */
   function ShopController(InventoryService) {
     let shop = this;
@@ -77,6 +79,11 @@
     };
 
     shop.addItem =
+      /**
+       * [call 'InventoryService' service
+       * to handle adding the new item]
+       * @param {Object} item [new item to be added]
+       */
       function addItem(item) {
       InventoryService.addItem(item);
       shop.newItem = {};
@@ -98,21 +105,15 @@
         }
       };
 
-    shop.setQuantity = function setQuantity(item, raiseVal) {
+    shop.setQuantity =
+      /**
+       * [set new Quantity for an item]
+       * @param {Object} item     [item to be modified]
+       * @param {Boolean} raiseVal [true if user
+       *                            wants to raise quantity]
+       */
+      function setQuantity(item, raiseVal) {
       InventoryService.setQuantity(item, raiseVal);
     };
-
-
-      // function setQuantity(item, raiseVal) {
-      //   if (raiseVal) {
-      //     item.quantity++;
-      //   } else {
-      //     if (item.quantity > 1) {
-      //       item.quantity--;
-      //     } else {
-      //         shop.inventory.splice(shop.inventory.indexOf(item), 1);
-      //     }
-      //   }
-      // };
   }
 }());
