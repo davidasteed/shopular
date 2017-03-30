@@ -35,12 +35,14 @@
       if (!inputUser.username ||
         typeof(inputUser.username) !== 'string' ||
         inputUser.username.length === 0) {
-        return userNameIfLoggedIn = false;
+          userNameIfLoggedIn = false;
+        return;
       }
       if (!inputUser.password ||
         typeof(inputUser.password) !== 'string' ||
         inputUser.password.length === 0) {
-        return userNameIfLoggedIn = false;
+          userNameIfLoggedIn = false;
+        return;
       }
 
       users.forEach(
@@ -56,12 +58,15 @@
         function findUser(user) {
         if (inputUser.username === user.username) {
           if (inputUser.password === user.password) {
-            return userNameIfLoggedIn = user.username;
+            userNameIfLoggedIn = user.username;
+            return userNameIfLoggedIn;
           } else {
-            return userNameIfLoggedIn = false;
+            userNameIfLoggedIn = false;
+            return;
           }
         } else {
-          return userNameIfLoggedIn = false;
+          userNameIfLoggedIn = false;
+          return;
         }
       });
 
