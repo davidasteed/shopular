@@ -5,14 +5,10 @@
   // to handle work against the inventory data
   angular.module('shop').factory('InventoryService', InventoryService);
 
-  // "dependency injector" for window.location, where localStorage exists
-  InventoryService.$inject = ['$location'];
-
   /**
    * [InventoryService constructor]
-   * @param {Object} $location [angularJS "location service"]
    */
-  function InventoryService($location) {
+  function InventoryService() {
 
     // reference to existing inventory,
     // or create new one
@@ -33,7 +29,7 @@
         (item.name.length === 0)) {
         return;
       }
-      if (typeof(Number(item.price)) !== 'number') {
+      if (typeof(Number(item.price)) !== 'number' || item.price < 0.01) {
         return;
       }
       if (!item.quantity || typeof(Number(item.quantity)) !== 'number') {

@@ -5,14 +5,10 @@
   // to handle user login data
   angular.module('shop').factory('UserService', UserService);
 
-  // "dependency injector" for window.location, where localStorage exists
-  UserService.$inject = ['$location'];
-
   /**
    * [UserService constructor]
-   * @param {Object} $location [AngularJS reference to window.location]
    */
-  function UserService($location) {
+  function UserService() {
 
     // add boss user account and password
     let bossUser = {username: 'boss', password: 'abc123'};
