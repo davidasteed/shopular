@@ -19,6 +19,7 @@
      * @param {Objct} item [item to be added]
      */
     function addItem(item) {
+      console.log('item is: ', item);
       // if array is empty or null, return
       if (!item || item.length === 0) {
         return;
@@ -29,10 +30,12 @@
         (item.name.length === 0)) {
         return;
       }
-      if (typeof(Number(item.price)) !== 'number' || item.price < 0.01) {
+      if (Number.isNaN(Number(item.price)) ||
+        typeof(Number(item.price)) !== 'number' || item.price < 0.01) {
         return;
       }
-      if (!item.quantity || typeof(Number(item.quantity)) !== 'number') {
+      if (Number.isNaN(Number(item.quantity)) ||
+        !item.quantity || typeof(Number(item.quantity)) !== 'number') {
         return;
       }
       if (typeof(item.color) !== 'string' || item.color.length === 0) {
