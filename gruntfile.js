@@ -11,16 +11,6 @@ module.exports = function configureGrunt(gruntConfig) {
             expand: true
           }
         ]
-      },
-      copyJs: {
-        files: [
-          {
-            cwd: 'src/js',
-            src: ['**/*.js'],
-            dest: 'build/js/',
-            expand: true
-          }
-        ]
       }
     },
     sass: {
@@ -56,12 +46,35 @@ module.exports = function configureGrunt(gruntConfig) {
           ]
         }
       }
+    },
+    concat: {
+      alljs: {
+        options: {
+          sourceMap: true
+        },
+        src: ['src/js/shop.module.js', 'src/js/**/*.js'],
+        dest: 'build/js/app.js'
+      }
+    },
+    babel: {
+      all: {
+        options: {
+          presets: ['es2015'],
+          sourceMap: true
+        },
+        files: {
+          // destination      Source
+          'build/js/app.js':  'build/js/app.js'
+        }
+      }
     }
+
   });
 
   // automatically load all grunt tasks
   require('load-grunt-tasks')(gruntConfig);
 
   // task alias for build tasks
-  gruntConfig.registerTask('build', [ 'clean', 'jshint', 'karma', 'sass', 'copy' ]);
+  gruntConfig.registerTask('build',
+    [ 'jshint', 'clean', 'concat', 'babel', 'karma', 'sass', 'copy' ]);
 };

@@ -9,7 +9,7 @@
 
     beforeEach(module('shop')); // same as 'ng-app' in the DOM
 
-    describe('addItems() testing', function() {
+    describe('InventoryService testing', function() {
 
       beforeEach(inject(function(_InventoryService_){
         // we are injecting an object matching 'InventoryService'
