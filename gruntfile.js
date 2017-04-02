@@ -43,7 +43,14 @@ module.exports = function configureGrunt(gruntConfig) {
             'src/js/shop.module.js',    // must load the module first
             'src/**/*.js',
             'test/**/*.spec.js'
-          ]
+          ],
+          preprocessors: {
+            'src/js/**/*/js': ['coverage']
+          },
+          reporters: ['dots', 'coverage'],
+          coverageReporter: {
+            type: 'text-summary'  // format the code coverage page
+          }
         }
       }
     },
@@ -68,13 +75,13 @@ module.exports = function configureGrunt(gruntConfig) {
         }
       }
     }
-
   });
 
   // automatically load all grunt tasks
   require('load-grunt-tasks')(gruntConfig);
 
-  // task alias for build tasks
+  // task aliases for build tasks
   gruntConfig.registerTask('build',
-    [ 'jshint', 'clean', 'concat', 'babel', 'karma', 'sass', 'copy' ]);
+    [ 'jshint', 'clean', 'concat',
+     'babel', 'karma', 'sass', 'copy' ]);
 };

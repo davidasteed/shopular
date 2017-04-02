@@ -21,6 +21,11 @@
         localStorage.removeItem('inventory');
       }));
 
+      it('should fail if the new item is an Array', function() {
+        InventoryService.addItem('Bill', '53', '3', 'blue');
+        expect(InventoryService.getInventory().length).to.equal(0);
+      });
+
       it('should fail if the new item Object is empty', function() {
         // first add one item to inventory
         InventoryService.addItem(

@@ -19,23 +19,29 @@
      * @param {Objct} item [item to be added]
      */
     function addItem(item) {
-      console.log('item is: ', item);
       // if array is empty or null, return
       if (!item || item.length === 0) {
         return;
       }
 
       // basic property validation
+
+      if (item.id) {
+        return; // our system will write an id value
+      }
+
       if ((typeof(item.name) !== 'string') ||
         (item.name.length === 0)) {
         return;
       }
       if (Number.isNaN(Number(item.price)) ||
-        typeof(Number(item.price)) !== 'number' || item.price < 0.01) {
+        typeof(Number(item.price)) !== 'number' ||
+        item.price < 0.01) {
         return;
       }
-      if (Number.isNaN(Number(item.quantity)) ||
-        !item.quantity || typeof(Number(item.quantity)) !== 'number') {
+      if (Number.isNaN(Number(item.quantity)) || !item.quantity ||
+        typeof(Number(item.quantity)) !== 'number' ||
+        item.quantity % 1 !== 0) {
         return;
       }
       if (typeof(item.color) !== 'string' || item.color.length === 0) {
@@ -80,6 +86,15 @@
      * @param {Boolean} raiseVal [true if user wants to increase quantity]
      */
     function setQuantity(item, raiseVal) {
+      // basic validation for arguments
+      if (!item || Array.isArray(item) ||
+        Object.keys(item).length === 0 || typeof(item) !== 'object') {
+        return;
+      }
+      if (typeof(raiseVal) !== 'boolean') {
+        return;
+      }
+
       // loop over the array to find matching value
       inventory.forEach(function findMatching(eachItem) {
         if (eachItem.id === item.id) {

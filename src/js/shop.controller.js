@@ -62,6 +62,12 @@
      * @return {Number}      [sale price]
      */
     function salePrice(item) {
+      // validate item
+      if (!item || Array.isArray(item) ||
+        typeof(item) !== 'object' || Object.keys(item).length === 0) {
+        return;
+      }
+
       if (this.usa) {
         return (item.price - item.discount);
       } else {
@@ -96,6 +102,12 @@
        * @param {String} property [property in View to change sorting to]
        */
       function setSortOrder(property) {
+
+        // basic argument validation
+        if (typeof(property) !== 'string' || property.length === 0) {
+          return;
+        }
+
         if (shop.sortOnThis === property) {
           shop.sortOnThis = '-' + property;
         } else if (shop.sortOnThis === '-' + property) {

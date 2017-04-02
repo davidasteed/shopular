@@ -38,8 +38,6 @@
         </form>
       </header>
 
-
-
       <main ng-controller='ShopController as shopCtl'>
         <h2>Add New Item</h2>
         <form
@@ -107,7 +105,6 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <!-- <td ng-click='shopCtl.sortOnThis = "name"'>Name</td> -->
               <td ng-click='shopCtl.setSortOrder("name")'>Name</td>
               <td ng-click='shopCtl.setSortOrder("price")'>Price</td>
               <td ng-click='shopCtl.setSortOrder("quantity")'>Quantity</td>
