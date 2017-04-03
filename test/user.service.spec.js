@@ -23,6 +23,42 @@
         localStorage.removeItem('users');
       }));
 
+      it('should fail property values are invalid', function() {
+        // fail if no argument provided
+        expect(UserService.loginUser()).to.equal(false);
+
+        // fail if argument is zero length
+        expect(UserService.loginUser({})).to.equal(false);
+
+        // fail is username is not present
+        expect(UserService.loginUser(
+          {password: 'abc123'})).to.equal(false);
+
+        // fail if username is not a string
+        expect(UserService.loginUser(
+          {username: 123,
+          password: 'abc123'})).to.equal(false);
+
+        // fail if username is zero length
+        expect(UserService.loginUser(
+          {username: '',
+          password: 'abc123'})).to.equal(false);
+
+        // fail if password is not present
+        expect(UserService.loginUser(
+          {username: 'boss'})).to.equal(false);
+
+        // fail if password is not a string
+        expect(UserService.loginUser(
+          {username: 'boss',
+           password: 555})).to.equal(false);
+
+        // fail if password is zero length
+        expect(UserService.loginUser(
+          {username: 'boss',
+           password: ''})).to.equal(false);
+      });
+
       it('should succeed if valid user', function() {
         let userLogin = UserService.loginUser(
           {username: 'boss',
@@ -30,13 +66,9 @@
         expect(userLogin).to.equal('boss');
       });
 
-      it('should fail if username is not a string', function() {
-        UserService.loginUser(
-          {username: 123,
-           password: 'yueue'});
-        expect(UserService.getUsers().length).to.equal(1);
+      it('should return Users', function() {
+        expect(UserService.getUsers()[0].username).to.equal('boss');
       });
-
     });
 
   });

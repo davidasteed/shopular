@@ -20,32 +20,46 @@
      */
     function addItem(item) {
       // if array is empty or null, return
-      if (!item || item.length === 0) {
+      if (!item || (Object.keys(item)).length === 0 ||
+        Array.isArray(item) || typeof(item) !== 'object') {
         return;
       }
 
       // basic property validation
-
       if (item.id) {
         return; // our system will write an id value
       }
 
-      if ((typeof(item.name) !== 'string') ||
-        (item.name.length === 0)) {
+      if (!item.hasOwnProperty('name') ||
+        item.name.length === 0 ||
+        typeof(item.name) !== 'string') {
         return;
       }
-      if (Number.isNaN(Number(item.price)) ||
+      if (!item.hasOwnProperty('price') ||
+        Number.isNaN(Number(item.price)) ||
         typeof(Number(item.price)) !== 'number' ||
         item.price < 0.01) {
         return;
       }
-      if (Number.isNaN(Number(item.quantity)) || !item.quantity ||
+      if (!item.hasOwnProperty('quantity') ||
+        Number.isNaN(Number(item.quantity)) ||
         typeof(Number(item.quantity)) !== 'number' ||
         item.quantity % 1 !== 0) {
         return;
       }
-      if (typeof(item.color) !== 'string' || item.color.length === 0) {
+      if (!item.hasOwnProperty('color') ||
+        typeof(item.color) !== 'string' ||
+        item.color.length === 0) {
         return;
+      }
+
+      // validate discount only if it was provided
+      let discountPresent = item.hasOwnProperty('discount');
+      if (discountPresent) {
+        if (Number.isNaN(Number(item.discount)) ||
+          typeof(Number(item.discount)) !== 'number') {
+          return;
+        }
       }
 
       // build the object to be added to inventory
@@ -57,10 +71,10 @@
       tempItem.quantity = Number(item.quantity);
       tempItem.color = item.color;
 
-      // if no discount is provided, make discount zero
-      if (item.discount) {
+      // set discount, else if not provided, make discount zero
+      if (discountPresent) {
         tempItem.discount = item.discount;
-      } else {
+      } else if (!discountPresent) {
         tempItem.discount = 0;
       }
 
@@ -88,7 +102,7 @@
     function setQuantity(item, raiseVal) {
       // basic validation for arguments
       if (!item || Array.isArray(item) ||
-        Object.keys(item).length === 0 || typeof(item) !== 'object') {
+        (Object.keys(item)).length === 0 || typeof(item) !== 'object') {
         return;
       }
       if (typeof(raiseVal) !== 'boolean') {

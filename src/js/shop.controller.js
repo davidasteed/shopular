@@ -64,7 +64,7 @@
     function salePrice(item) {
       // validate item
       if (!item || Array.isArray(item) ||
-        typeof(item) !== 'object' || Object.keys(item).length === 0) {
+        typeof(item) !== 'object' || (Object.keys(item)).length === 0) {
         return;
       }
 

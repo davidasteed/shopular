@@ -186,7 +186,7 @@
         color: 'red'});
 
       // attempt to change quantity without providing an item
-      ShopController.setQuantity(null, true);
+      ShopController.setQuantity(undefined, true);
       expect(ShopController.inventory[0].quantity).to.equal(150);
 
       // attempt to change quantity with invalid item datatype

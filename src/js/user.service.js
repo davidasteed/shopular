@@ -29,20 +29,22 @@
       // store return value of login attempt
       let userNameIfLoggedIn;
 
-      // basic data validation:
+      // if no argument provided, return false
+      if (!inputUser || (Object.keys(inputUser)).length === 0) {
+        return false;
+      }
+
       // if input user's name or password is
       // null, empty, or non-String, return false
-      if (!inputUser.username ||
+      if (!inputUser.hasOwnProperty('username') ||
         typeof(inputUser.username) !== 'string' ||
         inputUser.username.length === 0) {
-          userNameIfLoggedIn = false;
-        return;
+        return false;
       }
-      if (!inputUser.password ||
+      if (!inputUser.hasOwnProperty('password') ||
         typeof(inputUser.password) !== 'string' ||
         inputUser.password.length === 0) {
-          userNameIfLoggedIn = false;
-        return;
+        return false;
       }
 
       users.forEach(
