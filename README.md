@@ -35,13 +35,17 @@ How to build validate the basic web page:
 - sanity check:  validate if your local web server (such as http-server) will produce the expected result:  a form and an html table as explained above.  Note:  the local web server must use /src as the root folder at this phase
 
 Continue with setting up the test framework, babel transpiling to es5, code completion
-- npm init
+- install jshint:
 
-- use npm install to install each of the devDependencies/dependencies listed in package.json.  Use option --save-dev for "devDependencies" and -save for "dependencies"
+  npm install -g jshint
 
-- install angular:
+- npm init  (this assumes you have install Node.js v6 or later on your machine)
 
-  npm install --save angular
+- mocha chai karma setup:
+
+  npm install mocha --save-dev
+ 
+  npm install --save-dev karma chai karma-mocha karma-chai karma-chrome-launcher
 
 
 - install grunt:
@@ -63,28 +67,70 @@ Continue with setting up the test framework, babel transpiling to es5, code comp
   npm install --save-dev grunt-karma
 
 
+- install angular:
+
+  npm install --save angular
+
+
 - install angular-mocks:
   
   npm install --save-dev angular-mocks
 
 
-- Note:  you may need sass installed.  on my machine, this was done via:
+- Note:  you may need sass installed for grunt-sass to function properly.  on my machine, this was done via:
  
   gem install sass
 
 
-- mocha chai karma setup:
+- install grunt-concat:
 
-  npm install mocha --save-dev
- 
-  npm install --save-dev karma chai karma-mocha karma-chai karma-chrome-launcher
-
- 
+  npm install --save-dev grunt-contrib-concat
 
 
+- install Babel:
 
+  npm install --save-dev grunt-babel babel-preset-es2015
+  
 
+- install code-coverage:
 
+  npm install --save-dev karma-coverage
+  
 
+Run the full grunt build
 
+The grunt task runner, would then output something similar to:
 
+```/shopular (master)$ grunt build
+Running "jshint:appjs" (jshint) task
+>> 5 files lint free.
+
+Running "clean:0" (clean) task
+>> 1 path cleaned.
+
+Running "concat:alljs" (concat) task
+
+Running "babel:all" (babel) task
+
+Running "karma:all" (karma) task
+03 04 2017 02:19:58.838:INFO [karma]: Karma v1.5.0 server started at http://0.0.0.0:9876/
+03 04 2017 02:19:58.841:INFO [launcher]: Launching browser Chrome with unlimited concurrency
+03 04 2017 02:19:58.848:INFO [launcher]: Starting browser Chrome
+03 04 2017 02:19:59.898:INFO [Chrome 56.0.2924 (Mac OS X 10.12.3)]: Connected on socket 3IAIKDis_eyCxRwjAAAA with id 64474160
+....................
+Chrome 56.0.2924 (Mac OS X 10.12.3): Executed 20 of 20 SUCCESS (0.137 secs / 0.011 secs)
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 0/0 )
+Branches     : 100% ( 0/0 )
+Functions    : 100% ( 0/0 )
+Lines        : 100% ( 0/0 )
+================================================================================
+
+Running "sass:runSass" (sass) task
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.4.23/lib/sass/util.rb:1109: warning: constant ::Fixnum is deprecated
+
+Running "copy:copyHtml" (copy) task
+Copied 1 file
+
+Done.
