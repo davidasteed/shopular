@@ -82,6 +82,6 @@ module.exports = function configureGrunt(gruntConfig) {
 
   // task aliases for build tasks
   gruntConfig.registerTask('build',
-    [ 'jshint', 'clean', 'concat',
-     'babel', 'karma', 'sass', 'copy' ]);
+    [ 'jshint', 'karma', 'clean', 'concat',
+     'babel', 'sass', 'copy' ]);
 };
