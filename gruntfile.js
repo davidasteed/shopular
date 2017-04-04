@@ -45,7 +45,7 @@ module.exports = function configureGrunt(gruntConfig) {
             'test/**/*.spec.js'
           ],
           preprocessors: {
-            'src/js/**/*/js': ['coverage']
+            'src/js/**/*.js': ['coverage']
           },
           reporters: ['dots', 'coverage'],
           coverageReporter: {

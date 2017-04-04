@@ -26,17 +26,18 @@
         mockInventoryService.setQuantity.numTimesCalled++;
       };
 
-      // initialize "spy" variable to track function instantiations
-      mockInventoryService.setQuantity.numTimesCalled = 0;
-
       mockInventoryService.addItem = function addItem(argument1) {
-        // increment "spy" variable
         mockInventoryService.addItem.numTimesCalled++;
-        return;
       };
 
-      // initialize "spy" variable to track function instantiations
+      mockInventoryService.getInventory = function getInventory() {
+        mockInventoryService.getInventory.numTimesCalled++;
+      };
+
+      // initialize "spy" variables to track function instantiations
+      mockInventoryService.setQuantity.numTimesCalled = 0;
       mockInventoryService.addItem.numTimesCalled = 0;
+      mockInventoryService.getInventory.numTimesCalled = 0;
 
       // instantiate the mock controller,
       // which will have access to the functions from the mock service
